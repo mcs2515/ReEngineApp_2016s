@@ -24,7 +24,6 @@ void AppClass::InitVariables(void)
 	m_pCylinder->GenerateCylinder(0.5f, 0.5f, 10, REBLUE);
 	m_pTube->GenerateTube(0.5f, 0.25f, 0.5f, 10, REBROWN);
 	m_pTorus->GenerateTorus(0.5f, 0.25f, 10, 10, REYELLOW);
-
 }
 
 void AppClass::Update(void)
