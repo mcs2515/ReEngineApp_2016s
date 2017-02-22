@@ -9,3 +9,5 @@ Z_DELETE/
 *.suo
 *.db
 *.opendb
+tr.exe.stackdump
+Solution_VS15.sdf
