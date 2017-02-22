@@ -107,6 +107,8 @@ private:
 	OUTPUT: ---
 	*/
 	void AddQuad(vector3 a_vBottomLeft, vector3 a_vBottomRight, vector3 a_vTopLeft, vector3 a_vTopRight);
+	//adds triangle base with 3 vetrocs
+	void AddTri(vector3 a_vBottomLeft, vector3 a_vBottomRight, vector3 a_vTopLeft);
 };
 
 #endif //__MYPRIMITIVE_H_
