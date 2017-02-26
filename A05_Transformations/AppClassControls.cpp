@@ -42,6 +42,33 @@ void AppClass::ProcessKeyboard(void)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		m_pCameraMngr->MoveVertical(fSpeed);
 #pragma endregion
+	//extra credit
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+		if (bModifier) {
+			m_m4Sun = glm::translate(m_m4Sun, vector3(1.0f, 0.0f, 0.0f));
+		}
+		else {
+			m_m4Sun = glm::translate(m_m4Sun, vector3(-1.0f, 0.0f, 0.0f));
+		}
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
+		if (bModifier) {
+			m_m4Sun = glm::translate(m_m4Sun, vector3(0.0f, -1.0f, 0.0f));
+		}
+		else {
+			m_m4Sun = glm::translate(m_m4Sun, vector3(0.0f, 1.0f, 0.0f));
+		}
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+		if (bModifier) {
+			m_m4Sun = glm::translate(m_m4Sun, vector3(0.0f, 0.0f, -1.0f));
+		}
+		else {
+			m_m4Sun = glm::translate(m_m4Sun, vector3(0.0f, 0.0f, 1.0f));
+		}
+	}
 
 #pragma region Other Actions
 	ON_KEY_PRESS_RELEASE(Escape, NULL, PostMessage(m_pWindow->GetHandler(), WM_QUIT, NULL, NULL));

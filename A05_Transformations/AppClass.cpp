@@ -17,7 +17,7 @@ void AppClass::InitVariables(void)
 
 	m_pSun->GenerateSphere(5.936f, 5, REYELLOW);
 	m_pEarth->GenerateTube(0.524f, 0.45f, 0.3f, 10, REBLUE);
-	m_pMoon->GenerateTube(0.524f * 0.27f, 0.45f * 0.27f, 0.3f * 0.27f, 10, REWHITE);
+	m_pMoon->GenerateTube(0.524f * 0.27f, 0.45f * 0.27f, 0.3f * 0.27f, 10, REBLACK);
 }
 
 void AppClass::Update(void)
@@ -49,11 +49,42 @@ void AppClass::Update(void)
 #pragma endregion
 
 #pragma region YOUR CODE GOES HERE
-	//Calculate the position of the Earth
+	//Calculate the position of the Earth------------------------------------------------------------------------------
+	//get current rotation
 	m_m4Earth = glm::rotate(IDENTITY_M4, m_fEarthTimer, vector3(0.0f, 1.0f, 0.0f));
 
-	//Calculate the position of the Moon
-	m_m4Moon = glm::rotate(IDENTITY_M4, m_fMoonTimer, vector3(0.0f, 1.0f, 0.0f));
+	//move out to where sun is
+	m_m4Earth = glm::translate(m_m4Sun, vector3(0.0f, 0.0f, 0.0f));
+	//rotate around the sun
+	m_m4Earth = glm::rotate(m_m4Sun, m_fEarthTimer, vector3(0.0f, 1.0f, 0.0f));
+
+
+	//kick the earth out from the center of the sun
+	m_m4Earth = glm::translate(m_m4Earth, vector3(11.0f, 0.0f, 0.0f));
+	//revolve on its axis
+	m_m4Earth = glm::rotate(m_m4Earth, m_fEarthTimer*28* static_cast<float>(2*PI), vector3(1.0f, 0.0f, 0.0f));
+
+	//Calculate the position of the Moon-----------------------------------------------------------------------------
+	
+	//get current rotation
+	m_m4Moon = glm::rotate(IDENTITY_M4, m_fEarthTimer, vector3(0.0f, 1.0f, 0.0f));
+
+	//move out to where sun is
+	m_m4Moon = glm::translate(m_m4Sun, vector3(0.0f, 0.0f, 0.0f));
+	//rotate around the sun
+	m_m4Moon = glm::rotate(m_m4Sun, m_fEarthTimer, vector3(0.0f, 1.0f, 0.0f));
+
+	//move out to where earth is
+	m_m4Moon = glm::translate(m_m4Moon, vector3(11.0f, 0.0f, 0.0f));
+	//rotate around earth
+	m_m4Moon = glm::rotate(m_m4Moon, m_fMoonTimer, vector3(0.0f, 1.0f, 0.0f));
+
+	//kick the moon out from the center of the earth
+	m_m4Moon = glm::translate(m_m4Moon, vector3(2.0f, 0.0f, 0.0f));
+	//revolve on its axis
+	m_m4Moon = glm::rotate(m_m4Moon, m_fMoonTimer* static_cast<float>(2 * PI), vector3(0.0f, 1.0f, 0.0f));
+
+
 #pragma endregion
 
 #pragma region Print info
@@ -66,6 +97,8 @@ void AppClass::Update(void)
 	m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), REYELLOW);
 	m_pMeshMngr->Print("Earth Day: ", REWHITE);
 	m_pMeshMngr->PrintLine(std::to_string(m_fEarthTimer), REBLUE);
+	//m_pMeshMngr->Print("EarthRevolution: ", REWHITE);
+	//m_pMeshMngr->PrintLine(std::to_string(m_fEarthTimer*360), REGREEN);
 	m_pMeshMngr->Print("Moon Day: ", REWHITE);
 	m_pMeshMngr->PrintLine(std::to_string(m_fMoonTimer), REBLUE);
 	m_pMeshMngr->Print("FPS:");
