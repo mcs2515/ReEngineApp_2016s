@@ -37,6 +37,16 @@ void AppClass::Update(void)
 
 #pragma region Your Code goes here
 	m_pMeshMngr->SetModelMatrix(IDENTITY_M4, "WallEye");
+
+	//print info
+	static DWORD timerSinceBoot = GetTickCount(); //timer since computer boot
+	DWORD timerSinceStart = GetTickCount() - timerSinceBoot; //current time
+
+	//m_pMeshMngr->PrintLine(std::to_string(timerSinceStart));
+	float fTimer = timerSinceStart / 1000.0f; //was in millis, make in secs
+	m_pMeshMngr->PrintLine(("")); //print empty line
+	m_pMeshMngr->Print(std::to_string(fTimer)); //print the timer
+
 #pragma endregion
 
 #pragma region Does not need changes but feel free to change anything here
@@ -51,6 +61,8 @@ void AppClass::Update(void)
 	m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), REYELLOW);
 	m_pMeshMngr->Print("FPS:");
 	m_pMeshMngr->Print(std::to_string(nFPS), RERED);
+
+	fTimer += 0.016f;
 #pragma endregion
 }
 
