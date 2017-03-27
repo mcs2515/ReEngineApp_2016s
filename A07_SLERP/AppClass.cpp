@@ -97,12 +97,13 @@ void AppClass::Update(void)
 	//move out to where sun is
 	m_m4Moon *= glm::translate(m_m4Sun, vector3(0.0f, 0.0f, 0.0f));
 	//move out to where the earth is
-	m_m4Moon = glm::translate(m_m4Moon, vector3(11.0f, 0.0f, 0.0f)); 
+	m_m4Moon = glm::translate(m_m4Moon, vector3(11.0f, 0.0f, 0.0f));
+	//get current orbit location
+	m_m4Moon *= glm::toMat4(mOrbitQuad);
 	//move 2 units away from earth
 	m_m4Moon = glm::translate(m_m4Moon, vector3(0.524f*2.0f, 0.0f, 0.0f)); //relative to earth's size
 
-	//get current orbit location
-	m_m4Moon *= glm::toMat4(mOrbitQuad);
+
 
 	//Scale models appropriately
 	m_m4Moon = glm::scale(m_m4Moon, vector3(0.524f*0.27f, 0.524f*0.27f, 0.524f*0.27f)); //relative to the earth's size
