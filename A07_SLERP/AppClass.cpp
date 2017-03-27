@@ -20,6 +20,11 @@ void AppClass::InitVariables(void)
 	m_pMeshMngr->LoadModel("Planets\\03_Earth.obj", "Earth");
 	m_pMeshMngr->LoadModel("Planets\\03A_Moon.obj", "Moon");
 
+	m_m4Sun = IDENTITY_M4;
+	m_m4Earth = IDENTITY_M4;
+	m_m4Moon = IDENTITY_M4;
+	sunLocation = vector3(0.0f, 0.0f, 0.0f);
+
 	//Setting the days duration
 	m_fDay = 1.0f;
 }
@@ -42,22 +47,72 @@ void AppClass::Update(void)
 	static double fRunTime = 0.0f;
 	fRunTime += fCallTime;
 
+	static int nEarthOrbits = 0;
+	static int nEarthRevolutions = 0;
+	static int nMoonOrbits = 0;
+
 	//Earth Orbit
 	double fEarthHalfOrbTime = 182.5f * m_fDay; //Earths orbit around the sun lasts 365 days / half the time for 2 stops
 	float fEarthHalfRevTime = 0.5f * m_fDay; // Move for Half a day
 	float fMoonHalfOrbTime = 14.0f * m_fDay; //Moon's orbit is 28 earth days, so half the time for half a route
 
-	//Setting the matrices
-	m_pMeshMngr->SetModelMatrix(IDENTITY_M4, "Sun");
-	m_pMeshMngr->SetModelMatrix(IDENTITY_M4, "Earth");
-	m_pMeshMngr->SetModelMatrix(IDENTITY_M4, "Moon");
+	//revloution angleAxis
+	//orbits SLERP
 
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddInstanceToRenderList("ALL");
 
-	static int nEarthOrbits = 0;
-	static int nEarthRevolutions = 0;
-	static int nMoonOrbits = 0;
+	nEarthOrbits = static_cast<int>(fRunTime/(fEarthHalfOrbTime*2)); //run time divided by a full orbit
+	nEarthRevolutions = static_cast<int>(fRunTime / (fEarthHalfRevTime * 2)); // divided by a earth full rev
+	nMoonOrbits = static_cast<int>(fRunTime / (fMoonHalfOrbTime * 2)); //divided by afull rev
+
+	float eOrbitPercentage = MapValue(static_cast<float>(fRunTime), 0.0f, static_cast<float>(fEarthHalfOrbTime), 0.0f, 1.0f); //at 100% = half orbit
+	float eRevAngle = MapValue(static_cast<float>(fRunTime), 0.0f, static_cast<float>(fEarthHalfRevTime), 0.0f, 180.0f); //degrees
+	float mOrbitPercentage = MapValue(static_cast<float>(fRunTime), 0.0f, static_cast<float>(fMoonHalfOrbTime), 0.0f, 1.0f);
+
+	//start, end, percentage between the two
+	glm::quat eOrbitQuad = glm::mix(glm::quat(), glm::quat(vector3(0.0f, PI, 0.0f)), eOrbitPercentage); //things are in radians
+	glm::quat mOrbitQuad = glm::mix(glm::quat(), glm::quat(vector3(0.0f, PI, 0.0f)), mOrbitPercentage);
+	glm::quat eRevQuad = glm::angleAxis(eRevAngle, REAXISY); //in degrees
+
+	//blahhh
+	m_m4Sun = glm::translate(IDENTITY_M4, sunLocation);
+
+	//get current orbit location
+	m_m4Earth = glm::toMat4(eOrbitQuad);
+	//move out to where sun is
+	m_m4Earth *= glm::translate(m_m4Sun, vector3(0.0f, 0.0f, 0.0f));
+
+	//kick the earth out from the center of the sun
+	m_m4Earth = glm::translate(m_m4Earth, vector3(11.0f, 0.0f, 0.0f));
+	//revolve on its axis
+	m_m4Earth *= glm::toMat4(eRevQuad);
+	
+	//Calculate the position of the Moon-----------------------------------------------------------------------------
+
+	//move out to where earth is
+
+	//get earth's current orbit location
+	m_m4Moon = glm::toMat4(eOrbitQuad);	
+	//move out to where sun is
+	m_m4Moon *= glm::translate(m_m4Sun, vector3(0.0f, 0.0f, 0.0f));
+	//move out to where the earth is
+	m_m4Moon = glm::translate(m_m4Moon, vector3(11.0f, 0.0f, 0.0f)); 
+	//move 2 units away from earth
+	m_m4Moon = glm::translate(m_m4Moon, vector3(0.524f*2.0f, 0.0f, 0.0f)); //relative to earth's size
+
+	//get current orbit location
+	m_m4Moon *= glm::toMat4(mOrbitQuad);
+
+	//Scale models appropriately
+	m_m4Moon = glm::scale(m_m4Moon, vector3(0.524f*0.27f, 0.524f*0.27f, 0.524f*0.27f)); //relative to the earth's size
+	m_m4Sun = glm::scale(m_m4Sun, vector3(5.936f, 5.936f, 5.936f));
+	m_m4Earth = glm::scale(m_m4Earth, vector3(0.524f, 0.524f, 0.524f));
+
+	//Setting the matrices
+	m_pMeshMngr->SetModelMatrix(m_m4Sun, "Sun");
+	m_pMeshMngr->SetModelMatrix(m_m4Earth, "Earth");
+	m_pMeshMngr->SetModelMatrix(m_m4Moon, "Moon");
 
 	//Indicate the FPS
 	int nFPS = m_pSystem->GetFPS();
@@ -82,6 +137,8 @@ void AppClass::Update(void)
 
 	m_pMeshMngr->Print("FPS:");
 	m_pMeshMngr->Print(std::to_string(nFPS), RERED);
+
+	m_pMeshMngr->Print(std::to_string(sunLocation.x));
 }
 
 void AppClass::Display(void)
@@ -106,7 +163,7 @@ void AppClass::Display(void)
 	}
 	
 	m_pMeshMngr->Render(); //renders the render list
-
+	m_pMeshMngr->ClearRenderList(); //Reset the Render list after render
 	m_pGLSystem->GLSwapBuffers(); //Swaps the OpenGL buffers
 }
 

@@ -15,7 +15,36 @@ void AppClass::ProcessKeyboard(void)
 			else if(bLast##key) released_action;/*Just released?*/\
 			bLast##key = pressed; } //remember the state
 #pragma endregion
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
+		bModifier = true;
 
+	//extra credit
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+		if (bModifier) {
+			sunLocation.x -= 1.0f;
+		}
+		else {
+			sunLocation.x += 1.0f;
+		}
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
+		if (bModifier) {
+			sunLocation.y -= 1.0f;
+		}
+		else {
+			sunLocation.z += 1.0f;
+		}
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+		if (bModifier) {
+			sunLocation.z -= 1.0f;
+		}
+		else {
+			sunLocation.z += 1.0f;
+		}
+	}
 #pragma region Modifiers
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
 		bModifier = true;
