@@ -18,6 +18,8 @@ class AppClass : public ReEngAppClass
 	PrimitiveClass* m_pCylinder = nullptr;
 
 	Camera* camera = new Camera();
+	float winW;
+	float winH;
 
 	matrix4 m_m4Projection;
 	matrix4 m_m4View;

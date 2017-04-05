@@ -40,10 +40,12 @@ private:
 
 	vector3 cameraTarget;
 	vector3 cameraUp;
-	vector3 cameraPostion;
+	vector3 cameraPosition;
 
 	float pitch; //x
 	float yaw; //y
 	float roll; //z
+
+
 
 };

@@ -16,14 +16,6 @@ void AppClass::ProcessKeyboard(void)
 			else if(bLast##key) released_action;/*Just released?*/\
 			bLast##key = pressed; } //remember the state
 #pragma endregion
-
-	//F1 Controllers
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F1))
-	{
-		m_m4Projection = camera->GetProjection(false); //perspective
-		m_m4View = camera->GetView();
-	}
-
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 	{
 		camera->MoveVertical(-.1f);
