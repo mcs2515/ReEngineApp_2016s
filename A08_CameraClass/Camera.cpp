@@ -15,12 +15,11 @@ Camera::Camera() {
 	roll = 0.0f; //z
 };
 
-matrix4 Camera::GetView(void) { //Should get the View Matrix from your class 
-	cameraOrient = glm::quat(vector3(pitch, yaw, roll));
+matrix4 Camera::GetView(vector2 mouse) { //Should get the View Matrix from your class 
+	//cameraOrient = glm::quat(vector3(pitch, yaw, roll));
 	cameraView = glm::lookAt(cameraPosition, cameraTarget, cameraUp);
-	
+	cameraOrient = glm::quat(vector3(glm::radians(mouse.x), glm::radians(mouse.y), roll));
 	return glm::toMat4(cameraOrient) * glm::translate(cameraPosition);
-
 };
 
 

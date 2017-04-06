@@ -25,8 +25,13 @@ void AppClass::InitVariables(void)
 void AppClass::Update(void)
 {
 
+	sf::Vector2i mousePosition = sf::Mouse::getPosition();
+
+	vector2 mousePos = vector2(mousePosition.x, mousePosition.y);
+
+
 	m_m4Projection = camera->GetProjection(false); //perspective
-	m_m4View = camera->GetView();
+	m_m4View = camera->GetView(mousePos);
 
 	//Update the system's time
 	m_pSystem->UpdateTime();

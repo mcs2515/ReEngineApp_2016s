@@ -7,7 +7,7 @@ public:
 
 	//constructor
 	Camera();
-	matrix4 GetView(void); //Should get the View Matrix from your class
+	matrix4 GetView(vector2 mouse); //Should get the View Matrix from your class
 
 	matrix4 GetProjection(bool bOrtographic); //Should get the Projection Matrix from your class, this function should let me choose between a Perspective or an Orthographic projection depending on the bool argument.
 
