@@ -1,6 +1,4 @@
 #include "AppClass.h"
-#include <GL\glut.h>
-#include <windows.h>
 
 void AppClass::InitWindow(String a_sWindowName)
 {
@@ -20,14 +18,18 @@ void AppClass::InitVariables(void)
 	m_m4Projection = glm::perspective(45.0f, 1080.0f / 768.0f, 0.01f, 1000.0f);
 	m_m4View = glm::lookAt(glm::vec3(0.0f, 0.0f, 15.0f), glm::vec3(0.0f, 0.0f, 14.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
+	startMouse = sf::Mouse::getPosition();
 }
 
 void AppClass::Update(void)
 {
 
-	sf::Vector2i mousePosition = sf::Mouse::getPosition();
+	sf::Vector2i currentMouse = sf::Mouse::getPosition();
 
-	vector2 mousePos = vector2(mousePosition.x, mousePosition.y);
+	sf::Vector2i displacement = startMouse - currentMouse;
+
+
+	vector2 mousePos = vector2(displacement.x, displacement.y);
 
 
 	m_m4Projection = camera->GetProjection(false); //perspective

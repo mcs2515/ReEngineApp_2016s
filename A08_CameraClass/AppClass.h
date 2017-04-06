@@ -20,6 +20,7 @@ class AppClass : public ReEngAppClass
 	Camera* camera = new Camera();
 	float winW;
 	float winH;
+	sf::Vector2i startMouse;
 
 	matrix4 m_m4Projection;
 	matrix4 m_m4View;
