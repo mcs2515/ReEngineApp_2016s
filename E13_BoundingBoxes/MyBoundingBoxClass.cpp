@@ -3,7 +3,6 @@
 MyBoundingBoxClass::MyBoundingBoxClass(std::vector<vector3> vertexList)
 {
 	m_bColliding = false;
-	m_fRadius = 0.0f;
 	m_v3CenterGlobal = vector3(0.0f);
 
 	if (vertexList.size() < 1)
@@ -43,7 +42,6 @@ MyBoundingBoxClass::MyBoundingBoxClass(std::vector<vector3> vertexList)
 	}
 
 	m_v3CenterLocal = m_v3CenterGlobal = (m_v3Max + m_v3Min) / 2.0f;
-	m_fRadius = glm::distance(m_v3CenterGlobal, m_v3Max);
 	m_pMeshMngr = MeshManagerSingleton::GetInstance();
 	m_v3Size = m_v3Max - m_v3Min;
 
@@ -79,10 +77,6 @@ void MyBoundingBoxClass::RenderBox(vector3 pos)
 		glm::translate(m_v3CenterGlobal) *
 		glm::scale(m_v3SizeLargest),
 		REBLUE, WIRE);
-
-	/*m_pMeshMngr->AddSphereToRenderList(
-		glm::translate(m_v3CenterGlobal) *
-		glm::scale(vector3(m_fRadius) * 2.0f), v3Color, WIRE);*/
 }
 void MyBoundingBoxClass::SetModelMatrix(matrix4 a_m4ToWorld)
 { 
@@ -100,7 +94,7 @@ void MyBoundingBoxClass::SetModelMatrix(matrix4 a_m4ToWorld)
 	std::vector<vector3> vectorList;
 
 	//8 local points
-	vectorList.push_back(vector3(m_v3Min.x, m_v3Min.y, m_v3Min.z));
+	vectorList.push_back(vector3(m_v3Min.x, m_v3Min.y, m_v3Min.z)); //min
 	vectorList.push_back(vector3(m_v3Max.x, m_v3Min.y, m_v3Min.z));
 	vectorList.push_back(vector3(m_v3Min.x, m_v3Max.y, m_v3Min.z));
 	vectorList.push_back(vector3(m_v3Max.x, m_v3Max.y, m_v3Min.z));
@@ -108,7 +102,7 @@ void MyBoundingBoxClass::SetModelMatrix(matrix4 a_m4ToWorld)
 	vectorList.push_back(vector3(m_v3Min.x, m_v3Min.y, m_v3Max.z));
 	vectorList.push_back(vector3(m_v3Max.x, m_v3Min.y, m_v3Max.z));
 	vectorList.push_back(vector3(m_v3Min.x, m_v3Max.y, m_v3Max.z));
-	vectorList.push_back(vector3(m_v3Max.x, m_v3Max.y, m_v3Max.z));
+	vectorList.push_back(vector3(m_v3Max.x, m_v3Max.y, m_v3Max.z)); //max
 
 	//turn all 8 points to global
 	for (int i = 0; i < 8; i++)
@@ -181,9 +175,7 @@ bool MyBoundingBoxClass::IsColliding(MyBoundingBoxClass* a_other)
 void MyBoundingBoxClass::SetColliding(bool input) { m_bColliding = input; }
 void MyBoundingBoxClass::SetCenterLocal(vector3 input) { m_v3CenterLocal = input; }
 void MyBoundingBoxClass::SetCenterGlobal(vector3 input) { m_v3CenterGlobal = input; }
-void MyBoundingBoxClass::SetRadius(float input) { m_fRadius = input; }
 bool MyBoundingBoxClass::GetColliding(void) { return m_bColliding; }
 vector3 MyBoundingBoxClass::GetCenterLocal(void) { return m_v3CenterLocal; }
 vector3 MyBoundingBoxClass::GetCenterGlobal(void) { return m_v3CenterGlobal; }
-float MyBoundingBoxClass::GetRadius(void) { return m_fRadius; }
 matrix4 MyBoundingBoxClass::GetModelMatrix(void) { return m_m4ToWorld; }

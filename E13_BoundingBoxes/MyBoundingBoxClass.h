@@ -4,7 +4,7 @@
 class MyBoundingBoxClass
 {
 private:
-	float m_fRadius = 0.0f; //radius of the sphere
+
 	vector3 m_v3CenterLocal = vector3(0.0f); //center of the sphere in local space
 	vector3 m_v3CenterGlobal = vector3(0.0f); //center of the sphere in global space
 	matrix4 m_m4ToWorld = IDENTITY_M4; //matrix that takes you from local to global space
@@ -36,10 +36,6 @@ public:
 	Sets Center of the sphere in global space
 	*/
 	void SetCenterGlobal(vector3 input);
-	/*
-	Sets the radius of the sphere
-	*/
-	void SetRadius(float input);
 
 	/*
 	Gets Colliding
@@ -58,16 +54,13 @@ public:
 	*/
 	matrix4 GetModelMatrix(void);
 	/*
-	Gets radius of the sphere
-	*/
-	float GetRadius(void);
 	
 	/*
 	Constructor, needs a vertex list
 	*/
 	MyBoundingBoxClass(std::vector<vector3> vertexList);
 	/*
-	Renders the sphere based on the radius and the center in global space
+	Renders the box based onthe center in global space
 	*/
 	void RenderBox(vector3 pos);
 	/*

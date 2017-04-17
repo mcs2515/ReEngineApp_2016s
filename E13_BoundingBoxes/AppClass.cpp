@@ -1,7 +1,7 @@
 #include "AppClass.h"
 void AppClass::InitWindow(String a_sWindowName)
 {
-	super::InitWindow("Bounding Spheres DEMO");
+	super::InitWindow("E13_Bounding Box");
 }
 
 void AppClass::InitVariables(void)
@@ -20,13 +20,6 @@ void AppClass::InitVariables(void)
 
 
 	matrix4 m4Translation = glm::translate(vector3(3.0, 0.0, 0.0));
-	//m_pMeshMngr->LoadModel("Minecraft\\Steve.obj", "Steve");
-	//m_pBB1 = new MyBoundingBoxClass(m_pMeshMngr->GetVertexList("Steve"));
-	//m_pMeshMngr->SetModelMatrix(m4Translation, "Steve");
-
-	/*m_pMeshMngr->LoadModel("Minecraft\\Cow.obj", "Cow");
-	m_pBB2 = new MyBoundingBoxClass(m_pMeshMngr->GetVertexList("Cow"));
-	m_pMeshMngr->SetModelMatrix(m4Translation, "Cow");*/
 
 	m_pBB1 = new MyBoundingBoxClass(m_pMeshMngr->GetVertexList("Steve"));
 	m_pBB2 = new MyBoundingBoxClass(m_pMeshMngr->GetVertexList("Cow"));
@@ -97,30 +90,6 @@ void AppClass::Update(void)
 		m_pBB1->SetColliding(true);
 		m_pBB2->SetColliding(true);
 	}
-
-	m_pBB1->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Steve"));
-	m_pBB1->RenderBox(vector3(0,0,0));
-
-	m_pBB2->SetModelMatrix(m_pMeshMngr->GetModelMatrix("Cow"));
-	m_pBB2->RenderBox(vector3(0, 0, 0));
-
-
-	m_pBB0->SetColliding(false);
-	m_pBB1->SetColliding(false);
-	m_pBB2->SetColliding(false);
-
-	if (m_pBB0->IsColliding(m_pBB1)) {
-		m_pBB0->SetColliding(true);
-		m_pBB1->SetColliding(true);
-	}
-	if (m_pBB0->IsColliding(m_pBB2)) {
-		m_pBB0->SetColliding(true);
-		m_pBB2->SetColliding(true);
-	}
-	if (m_pBB1->IsColliding(m_pBB2)) {
-		m_pBB1->SetColliding(true);
-		m_pBB2->SetColliding(true);
-	}
 	
 
 	if (fPercentage > 1.0f)
@@ -141,8 +110,6 @@ void AppClass::Update(void)
 	m_pMeshMngr->PrintLine("");//Add a line on top
 	m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), REYELLOW);
 
-	m_pMeshMngr->Print("Radius: ");
-	m_pMeshMngr->PrintLine(std::to_string(m_pBB0->GetRadius()), RERED);
 	m_pMeshMngr->Print("Center: (");
 	m_pMeshMngr->Print(std::to_string(m_pBB0->GetCenterGlobal().x), RERED);
 	m_pMeshMngr->Print(" , ");
@@ -172,10 +139,5 @@ void AppClass::Release(void)
 	SafeDelete(m_pBB1);
 	SafeDelete(m_pBB2);
 
-	if (m_pBB0 != nullptr)
-	{
-		delete m_pBB0;
-		m_pBB0 = nullptr;
-	}
 	super::Release(); //release the memory of the inherited fields
 }
