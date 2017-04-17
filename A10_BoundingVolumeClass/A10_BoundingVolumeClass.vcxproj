@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7C92ECC7-3308-4D74-A119-3C51CCE9782A}</ProjectGuid>
-    <RootNamespace>E13_BoundingBoxes</RootNamespace>
-    <ProjectName>E13_BoundingBoxes</ProjectName>
+    <ProjectGuid>{EA94854C-80A7-4BA6-9138-38EFEC3862D7}</ProjectGuid>
+    <RootNamespace>A10_BoundingVolumeClass</RootNamespace>
+    <ProjectName>A10_BoundingVolumeClass</ProjectName>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
