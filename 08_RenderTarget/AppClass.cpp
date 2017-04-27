@@ -1,9 +1,9 @@
 #include "AppClass.h"
 void AppClass::InitWindow(String a_sWindowName)
 {
-	super::InitWindow("Render Tagets (Render to texture)"); // Window Name
+	super::InitWindow("Render Tagets (Render to texture in stereo)"); // Window Name
 	m_v4ClearColor = vector4(RECORNFLOWERBLUE, 0.0f);
-	//m_pSystem->SetWindowFullscreen(RESOLUTIONS::C_1920x1080_16x9_FULLHD);
+	m_pSystem->SetWindowFullscreen(RESOLUTIONS::C_1920x1080_16x9_FULLHD);
 }
 
 void AppClass::InitVariables(void)
@@ -79,6 +79,7 @@ void AppClass::Update(void)
 	//print info into the console
 	printf("FPS: %d            \r", nFPS);//print the Frames per Second
 	//Print info on the screen
+	m_pMeshMngr->PrintLine("");//Add a line on top
 	m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), REYELLOW);
 
 	m_pMeshMngr->Print("Selection: ");
