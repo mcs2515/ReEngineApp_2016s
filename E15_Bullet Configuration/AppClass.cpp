@@ -15,7 +15,7 @@ void AppClass::InitVariables(void)
 	for (int n = 0; n < m_nCubes; n++)
 	{
 		vVectors.push_back(vector3(0.0f, 2 * n + 2, -0.1 * n));
-		m_pMeshMngr->LoadModel("Sorted\\Polycube.obj", "Cube", false, glm::translate(matrix4(1.0f), vVectors[n]));
+		m_pMeshMngr->LoadModel("Portal\\CompanionCube.bto", "Cube", false, glm::translate(matrix4(1.0f), vVectors[n]));
 	}
 	
 	//Setup world, Broadphase, collision configuration, solver
@@ -27,6 +27,8 @@ void AppClass::InitVariables(void)
 	dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
 	//Ground
+	//2) The black plane is used to give the cubes/bullet something to collide with.
+	//without its ridged  body, the cube would endlessly fall.
 	groundShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
 	groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
 	btRigidBody::btRigidBodyConstructionInfo groundRigidBodyCI(0, groundMotionState, groundShape, btVector3(0, 0, 0));
@@ -92,7 +94,7 @@ void AppClass::Update(void)
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddInstanceToRenderList("ALL");
 
-	m_pMeshMngr->AddPlaneToQueue(glm::rotate(IDENTITY_M4, 90.0f, REAXISX) * glm::scale(vector3(100.0f)), REBLACK);
+	m_pMeshMngr->AddPlaneToRenderList(glm::rotate(IDENTITY_M4, 90.0f, REAXISX) * glm::scale(vector3(100.0f)), REBLACK);
 
 	//Indicate the FPS
 	int nFPS = m_pSystem->GetFPS();
@@ -112,21 +114,21 @@ void AppClass::Display(void)
 	switch (m_pCameraMngr->GetCameraMode())
 	{
 	default: //Perspective
-		m_pMeshMngr->AddGridToQueue(1.0f, REAXIS::XY); //renders the XY grid with a 100% scale
+		m_pMeshMngr->AddGridToRenderList(1.0f, REAXIS::XY); //renders the XY grid with a 100% scale
 		break;
 	case CAMERAMODE::CAMROTHOX:
-		m_pMeshMngr->AddGridToQueue(1.0f, REAXIS::YZ, RERED * 0.75f); //renders the YZ grid with a 100% scale
+		m_pMeshMngr->AddGridToRenderList(1.0f, REAXIS::YZ, RERED * 0.75f); //renders the YZ grid with a 100% scale
 		break;
 	case CAMERAMODE::CAMROTHOY:
-		m_pMeshMngr->AddGridToQueue(1.0f, REAXIS::XZ, REGREEN * 0.75f); //renders the XZ grid with a 100% scale
+		m_pMeshMngr->AddGridToRenderList(1.0f, REAXIS::XZ, REGREEN * 0.75f); //renders the XZ grid with a 100% scale
 		break;
 	case CAMERAMODE::CAMROTHOZ:
-		m_pMeshMngr->AddGridToQueue(1.0f, REAXIS::XY, REBLUE * 0.75f); //renders the XY grid with a 100% scale
+		m_pMeshMngr->AddGridToRenderList(1.0f, REAXIS::XY, REBLUE * 0.75f); //renders the XY grid with a 100% scale
 		break;
 	}
 	
 	m_pMeshMngr->Render(); //renders the render list
-
+	m_pMeshMngr->ClearRenderList(); //Reset the Render list after render
 	m_pGLSystem->GLSwapBuffers(); //Swaps the OpenGL buffers
 }
 
