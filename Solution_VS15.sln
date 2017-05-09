@@ -105,6 +105,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "E14_CollisionResolution", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "W14R_EntityManagerDEMO", "W14R_EntityManagerDEMO\W14R_EntityManagerDEMO.vcxproj", "{AD27F8DF-F8E8-428B-9ABF-391FC128CD5C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "E15_Bullet Configuration", "E15_Bullet Configuration\E15_Bullet Configuration.vcxproj", "{9CAEC2F6-0EF6-4D0D-97A2-8410ECEACAA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -283,6 +285,10 @@ Global
 		{AD27F8DF-F8E8-428B-9ABF-391FC128CD5C}.Debug|x86.Build.0 = Debug|Win32
 		{AD27F8DF-F8E8-428B-9ABF-391FC128CD5C}.Release|x86.ActiveCfg = Release|Win32
 		{AD27F8DF-F8E8-428B-9ABF-391FC128CD5C}.Release|x86.Build.0 = Release|Win32
+		{9CAEC2F6-0EF6-4D0D-97A2-8410ECEACAA1}.Debug|x86.ActiveCfg = Debug|Win32
+		{9CAEC2F6-0EF6-4D0D-97A2-8410ECEACAA1}.Debug|x86.Build.0 = Debug|Win32
+		{9CAEC2F6-0EF6-4D0D-97A2-8410ECEACAA1}.Release|x86.ActiveCfg = Release|Win32
+		{9CAEC2F6-0EF6-4D0D-97A2-8410ECEACAA1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -331,5 +337,6 @@ Global
 		{ECF77324-3C73-4C41-A5FA-D2291E7748E0} = {0B1C8EE7-E852-45B2-A546-BE37B521048A}
 		{08298E13-200D-4DB2-B7BA-EFE97509F814} = {0B1C8EE7-E852-45B2-A546-BE37B521048A}
 		{AD27F8DF-F8E8-428B-9ABF-391FC128CD5C} = {2D1B6711-5C2F-40D1-81B0-C84AEDAA4353}
+		{9CAEC2F6-0EF6-4D0D-97A2-8410ECEACAA1} = {0B1C8EE7-E852-45B2-A546-BE37B521048A}
 	EndGlobalSection
 EndGlobal
