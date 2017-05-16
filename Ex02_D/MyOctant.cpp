@@ -8,8 +8,33 @@ void MyOctant::Init(void)
 	m_fSize = 0.0f;
 	m_pBOMngr = MyBOManager::GetInstance();
 
-	int nObjectCont = m_pBOMngr->GetObjectCount();
+	int nObjectCount = m_pBOMngr->GetObjectCount();
+
+	
 	//YOUR CODE GOES HERE
+	std::vector<vector3> lMinMax; //Will hold all of the Min and Max vectors of the Bounding Object
+
+	int nObjects = m_pBOMngr->GetObjectCount();
+	for (int i = 0; i < nObjects; i++)
+	{
+		MyBOClass* pBO = m_pBOMngr->GetBoundingObject(i);
+		lMinMax.push_back(pBO->GetMinG());
+		lMinMax.push_back(pBO->GetMaxG());
+	}
+	MyBOClass* pBO = new MyBOClass(lMinMax);
+
+	vector3 vHalfWidth = pBO->GetHalfWidthG();
+	float fMax = vHalfWidth.x;
+	for (int i = 1; i < 3; i++)
+	{
+		if (fMax < vHalfWidth[i])
+			fMax = vHalfWidth[i];
+	}
+	m_v3Position = pBO->GetCenterLocal();
+	lMinMax.clear();
+	SafeDelete(pBO);
+
+	m_fSize = fMax * 2.0f;
 }
 void MyOctant::Release(void)
 {

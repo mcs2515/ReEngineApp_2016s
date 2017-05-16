@@ -152,6 +152,36 @@ MyBOClass::MyBOClass(std::vector<vector3> a_lVectorList)
 		return;
 
 	//Your code goes Here
+	for (int i = 0; i < a_lVectorList.size(); i++) {
+		if (m_v3Min.x > a_lVectorList[i].x) {
+			m_v3Min.x = a_lVectorList[i].x;
+		}
+		else if (m_v3Max.x < a_lVectorList[i].x) {
+			m_v3Max.x = a_lVectorList[i].x;
+		}
+
+		if (m_v3Min.y > a_lVectorList[i].y) {
+			m_v3Min.y = a_lVectorList[i].y;
+		}
+		else if (m_v3Max.y < a_lVectorList[i].y) {
+			m_v3Max.y = a_lVectorList[i].y;
+		}
+
+		if (m_v3Min.z > a_lVectorList[i].z) {
+			m_v3Min.z = a_lVectorList[i].z;
+		}
+		else if (m_v3Max.z < a_lVectorList[i].z) {
+			m_v3Max.z = a_lVectorList[i].z;
+		}
+	}
+
+	m_v3Center = (m_v3Max + m_v3Min) / 2.0f;
+	m_v3HalfWidth = (m_v3Max - m_v3Min) / 2.0f;
+	m_v3MaxG = m_v3Max;
+	m_v3MinG = m_v3Min;
+	m_v3CenterG = m_v3Center;
+	m_v3HalfWidthG = m_v3HalfWidth;
+
 }
 void MyBOClass::SetModelMatrix(matrix4 a_m4ToWorld)
 {
@@ -162,4 +192,51 @@ void MyBOClass::SetModelMatrix(matrix4 a_m4ToWorld)
 
 	m_m4ToWorld = a_m4ToWorld;
 	//Your code goes here
+	
+	m_v3CenterG = vector3(m_m4ToWorld* vector4(m_v3Center, 1.0f));
+	m_v3MinG = vector3(m_m4ToWorld* vector4(m_v3Min, 1.0f));
+	m_v3MaxG = vector3(m_m4ToWorld* vector4(m_v3Max, 1.0f));
+
+	std::vector <vector3> vectList;
+
+	vectList.push_back(vector3(m_v3Min.x, m_v3Min.y, m_v3Min.z));
+	vectList.push_back(vector3(m_v3Max.x, m_v3Min.y, m_v3Min.z));
+	vectList.push_back(vector3(m_v3Min.x, m_v3Max.y, m_v3Min.z));
+	vectList.push_back(vector3(m_v3Max.x, m_v3Max.y, m_v3Min.z));
+	vectList.push_back(vector3(m_v3Min.x, m_v3Min.y, m_v3Max.z));
+	vectList.push_back(vector3(m_v3Max.x, m_v3Min.y, m_v3Max.z));
+	vectList.push_back(vector3(m_v3Min.x, m_v3Max.y, m_v3Max.z));
+	vectList.push_back(vector3(m_v3Max.x, m_v3Max.y, m_v3Max.z));
+
+	for (int i = 0; i < 8; i++) {
+		vectList[i] = vector3(m_m4ToWorld* vector4(vectList[i], 1.0f));
+	}
+
+	m_v3MinG = m_v3MaxG = vectList[0];
+
+	for (int i = 1; i < 8; i++) {
+		if (m_v3MinG.x > vectList[i].x) {
+			m_v3MinG.x = vectList[i].x;
+		}
+		else if (m_v3MaxG.x < vectList[i].x) {
+			m_v3MaxG.x = vectList[i].x;
+		}
+
+		if (m_v3MinG.y > vectList[i].y) {
+			m_v3MinG.y = vectList[i].y;
+		}
+		else if (m_v3MaxG.y < vectList[i].y) {
+			m_v3MaxG.y = vectList[i].y;
+		}
+
+		if (m_v3MinG.z > vectList[i].z) {
+			m_v3MinG.z = vectList[i].z;
+		}
+		else if (m_v3MaxG.z < vectList[i].z) {
+			m_v3MaxG.z = vectList[i].z;
+		}
+	}
+
+	m_v3CenterG = (m_v3MaxG + m_v3MinG) / 2.0f;
+	m_v3HalfWidthG = (m_v3MaxG - m_v3MinG) / 2.0f;
 }

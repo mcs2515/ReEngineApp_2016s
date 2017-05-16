@@ -177,9 +177,11 @@ MyBOClass::MyBOClass(std::vector<vector3> a_lVectorList)
 
 	m_v3Center = (m_v3Max + m_v3Min) / 2.0f;
 	m_v3HalfWidth = (m_v3Max - m_v3Min) / 2.0f;
-	m_v3MinG = m_v3Min;
-	m_v3MaxG = m_v3Max;
 
+	m_v3MaxG = m_v3Max;
+	m_v3MinG = m_v3Min;
+	m_v3CenterG = m_v3Center;
+	m_v3HalfWidthG = m_v3HalfWidth;
 }
 void MyBOClass::SetModelMatrix(matrix4 a_m4ToWorld)
 {
